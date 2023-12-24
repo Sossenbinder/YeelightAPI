@@ -72,7 +72,10 @@ namespace YeelightAPI
                     parameters: names
                     );
 
-                results.AddRange(commandResult?.Result);
+                if (commandResult?.Result != null)
+                {
+                    results.AddRange(commandResult?.Result);
+                }
             }
             else
             {
@@ -84,8 +87,15 @@ namespace YeelightAPI
                     method: METHODS.GetProp,
                     parameters: names.Skip(20).ToList());
 
-                results.AddRange(commandResult1?.Result);
-                results.AddRange(commandResult2?.Result);
+                if (commandResult1?.Result != null)
+                {
+                    results.AddRange(commandResult1?.Result);
+                }
+                
+                if (commandResult2?.Result != null)
+                {
+                    results.AddRange(commandResult2?.Result);
+                }
             }
 
             if (results.Count > 0)
