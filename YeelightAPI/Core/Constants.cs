@@ -18,7 +18,7 @@ namespace YeelightAPI.Core
         /// <summary>
         /// Default Timeout when waiting for a response from the device
         /// </summary>
-        public const int DefaultTimeout = 5000;
+        public const int DefaultTimeout = 15000;
 
         /// <summary>
         /// Line separator

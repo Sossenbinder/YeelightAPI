@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using YeelightAPI.Models;
@@ -82,6 +83,7 @@ namespace YeelightAPI.Core
         /// </summary>
         public void TrySetCanceled()
         {
+            Console.WriteLine("Cancelled");
             _tcs.TrySetCanceled();
             _cts?.Dispose();
         }

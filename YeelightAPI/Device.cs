@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using YeelightAPI.Core;
 using YeelightAPI.Models;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace YeelightAPI
 {
@@ -293,6 +294,10 @@ namespace YeelightAPI
                 Params = parameters ?? new List<object>()
             };
 
+            command.Id = command.Id;
+            command.Params = command.Params;
+            command.Method = command.Method;
+
             string data = JsonConvert.SerializeObject(command, Constants.DeviceSerializerSettings);
             byte[] sentData = Encoding.ASCII.GetBytes(data + Constants.LineSeparator); // \r\n is the end of the message, it needs to be sent for the message to be read by the device
 
@@ -316,7 +321,9 @@ namespace YeelightAPI
             {
                 return await UnsafeExecuteCommandWithResponse<T>(method, id, parameters);
             }
-            catch (TaskCanceledException) { }
+            catch (TaskCanceledException)
+            {
+            }
 
             return null;
         }
@@ -490,6 +497,7 @@ namespace YeelightAPI
                                                 {
                                                     CommandResult commandResult =
                                                         JsonConvert.DeserializeObject<CommandResult>(entry, Constants.DeviceSerializerSettings);
+                                                        
                                                     if (commandResult != null && commandResult.Id != 0)
                                                     {
                                                         ICommandResultHandler commandResultHandler;
@@ -498,6 +506,7 @@ namespace YeelightAPI
                                                             if (!_currentCommandResults.TryGetValue(commandResult.Id, out commandResultHandler))
                                                                 continue; // ignore if the result can't be found
                                                         }
+                                                        
 
                                                         if (commandResult.Error == null)
                                                         {
